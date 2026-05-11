@@ -11,11 +11,6 @@ jobs:
     name: Xây dựng và Chạy Tests
     runs-on: ubuntu-latest
 
-    services:
-      # GitHub Actions hỗ trợ Docker Service trực tiếp nếu cần, 
-      # nhưng vì chúng ta dùng Testcontainers trong code nên không cần định nghĩa ở đây.
-      # Testcontainers sẽ tự khởi tạo containers cần thiết trong lúc chạy test.
-
     steps:
     - name: Kiểm tra mã nguồn (Checkout)
       uses: actions/checkout@v4
@@ -26,17 +21,13 @@ jobs:
         dotnet-version: 10.0.x
 
     - name: Khôi phục các gói phụ thuộc (Restore)
-      run: dotnet restore
+      run: dotnet restore TaskManagement.slnx
 
     - name: Xây dựng giải pháp (Build)
-      run: dotnet build --no-restore -c Release
+      run: dotnet build TaskManagement.slnx --no-restore -c Release
 
-    - name: Chạy Unit Tests (Kiểm tra đơn vị)
-      run: dotnet test --no-build -c Release --filter Category=Unit
-
-    - name: Chạy Integration Tests (Kiểm tra tích hợp với Docker)
-      # Bước này yêu cầu Docker đang chạy trên Runner (mặc định có sẵn trên ubuntu-latest)
-      run: dotnet test --no-build -c Release --filter Category=Integration
+    - name: Chạy Tests
+      run: dotnet test TaskManagement.slnx --no-build -c Release
 
   docker-build:
     name: Đóng gói Docker Image
@@ -63,7 +54,6 @@ jobs:
       with:
         context: .
         push: true
-        # Tên image sẽ có dạng: ghcr.io/username/repo-name:latest
         tags: ghcr.io/${{ github.repository }}:latest
         cache-from: type=gha
         cache-to: type=gha,mode=max
