@@ -34,7 +34,7 @@ namespace QuanLyCongViec.Application.Tests.CongViec.Commands
         public async Task Handle_LenhHopLe_PhaiThucHienPhanCongVaLuuDuLieu()
         {
             // Sắp xếp (Arrange)
-            var congViec = Entities.CongViec.Tao("Test", "", DoUuTien.Thap, 1, null);
+            var congViec = CongViec.Tao("Test", "", DoUuTien.Thap, 1, null);
             _mockKhoCongViec.Setup(k => k.LayTheoIdAsync(1)).ReturnsAsync(congViec);
             
             var lenh = new LenhPhanCongCongViec(1, 2, 1); // IdCongViec=1, IdNguoiDung=2, IdQuanLy=1
@@ -56,7 +56,7 @@ namespace QuanLyCongViec.Application.Tests.CongViec.Commands
         public async Task Handle_CongViecKhongTonTai_PhaiQuangNgoaiLe()
         {
             // Sắp xếp: Trả về null khi tìm công việc ID 99
-            _mockKhoCongViec.Setup(k => k.LayTheoIdAsync(99)).ReturnsAsync((Entities.CongViec)null);
+            _mockKhoCongViec.Setup(k => k.LayTheoIdAsync(99)).ReturnsAsync((CongViec)null);
             
             var lenh = new LenhPhanCongCongViec(99, 2, 1);
 
