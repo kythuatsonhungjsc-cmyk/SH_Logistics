@@ -1,0 +1,121 @@
+/* Bổ sung Style cho Landing Page tích hợp */
+
+.main-header {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  padding: 30px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  box-sizing: border-box;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #fff;
+}
+
+nav {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+
+nav a {
+  color: #aaa;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: 0.3s;
+  text-transform: uppercase;
+}
+
+nav a:hover {
+  color: #ff4444;
+}
+
+.nav-cta {
+  background: #ff4444;
+  color: white !important;
+  padding: 10px 25px;
+  border-radius: 50px;
+}
+
+/* Nội dung Hero đè lên Canvas 3D */
+.hero-content {
+  position: absolute;
+  top: 50%;
+  right: 10%;
+  transform: translateY(-50%);
+  max-width: 500px;
+  z-index: 10;
+  pointer-events: none; /* Để có thể click xuyên qua vào Canvas nếu cần */
+}
+
+.hero-content h1 {
+  font-size: 80px;
+  line-height: 0.9;
+  margin: 0 0 20px 0;
+  font-weight: 900;
+  color: white;
+}
+
+.highlight {
+  color: #ff4444;
+}
+
+.hero-content p {
+  color: #aaa;
+  font-size: 18px;
+  margin-bottom: 40px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 20px;
+  pointer-events: auto; /* Kích hoạt lại click cho nút */
+}
+
+.primary-btn {
+  background: #ff4444;
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.secondary-btn {
+  background: transparent;
+  color: white;
+  border: 1px solid #555;
+  padding: 15px 40px;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.info-section {
+  background: #0a0a0a;
+  padding: 100px 60px;
+  text-align: center;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 50px;
+  margin-top: 60px;
+}
+
+.feature {
+  background: #111;
+  padding: 40px;
+  border-radius: 20px;
+  border: 1px solid #222;
+}
