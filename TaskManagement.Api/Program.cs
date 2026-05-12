@@ -36,6 +36,12 @@ builder.Services.AddScoped<QuanLyCongViec.Infrastructure.Notifications.DichVuLie
 // Đăng ký Repository cho module Bảo dưỡng
 builder.Services.AddScoped<IKhoLuuTruBaoDuong, KhoLuuTruBaoDuong>();
 
+// Đăng ký Repository cho module Phương tiện (Xe)
+builder.Services.AddScoped<IKhoLuuTruPhuongTien, KhoLuuTruPhuongTien>();
+
+// Đăng ký Repository cho module Lái xe
+builder.Services.AddScoped<IKhoLuuTruLaiXe, KhoLuuTruLaiXe>();
+
 // Đăng ký bộ xử lý lỗi toàn cục (Global Exception Handling - NET 10)
 builder.Services.AddExceptionHandler<BoXuLyLoiToanCuc>();
 builder.Services.AddProblemDetails();
@@ -113,5 +119,7 @@ app.MapHub<HubDashboard>("/hubs/dashboard");
 app.MapEndpointsCongViec();
 app.MapEndpointsNguoiDung();
 app.MapEndpointsBaoDuong();
+app.MapEndpointsPhuongTien();
+app.MapEndpointsLaiXe();
 
 app.Run();

@@ -1,6 +1,8 @@
 using EntityCongViec = QuanLyCongViec.Domain.Entities.CongViec;
 using EntityNguoiDung = QuanLyCongViec.Domain.Entities.NguoiDung;
 using EntityBaoDuong = QuanLyCongViec.Domain.Entities.LichSuBaoDuong;
+using EntityPhuongTien = QuanLyCongViec.Domain.Entities.PhuongTien;
+using EntityLaiXe = QuanLyCongViec.Domain.Entities.LaiXe;
 
 namespace QuanLyCongViec.Application.Common.Interfaces
 {
@@ -48,5 +50,27 @@ namespace QuanLyCongViec.Application.Common.Interfaces
     {
         /// <summary> Lưu tất cả thay đổi vào cơ sở dữ liệu </summary>
         Task<int> LuuThayDoiAsync(CancellationToken cancellationToken = default);
+    }
+
+    /// <summary>
+    /// Giao diện kho lưu trữ Phương tiện (Xe)
+    /// </summary>
+    public interface IKhoLuuTruPhuongTien
+    {
+        Task<List<EntityPhuongTien>> LayTatCaAsync();
+        Task<EntityPhuongTien?> LayTheoIdAsync(int id);
+        Task ThemAsync(EntityPhuongTien phuongTien);
+        void CapNhat(EntityPhuongTien phuongTien);
+    }
+
+    /// <summary>
+    /// Giao diện kho lưu trữ Lái xe
+    /// </summary>
+    public interface IKhoLuuTruLaiXe
+    {
+        Task<List<EntityLaiXe>> LayTatCaAsync();
+        Task<EntityLaiXe?> LayTheoIdAsync(int id);
+        Task ThemAsync(EntityLaiXe laiXe);
+        void CapNhat(EntityLaiXe laiXe);
     }
 }
