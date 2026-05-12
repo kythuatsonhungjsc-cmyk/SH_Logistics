@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { maintenanceApi } from '../../services/api';
+import { transformMaintenanceHistory, transformMockToApiFormat } from '../../services/transformers';
 
 // Dữ liệu giả lập từ Bảng 1 (file.md)
 const mockMaintenanceData = [
@@ -112,11 +114,7 @@ export default function MaintenanceModule() {
     };
 
     try {
-      const response = await fetch('http://localhost:5000/api/maintenance/invoice', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
+      const response = await maintenanceApi.createInvoice(payload);
       
       if (response.status === 409) {
          const conflictData = await response.json();
@@ -137,56 +135,31 @@ export default function MaintenanceModule() {
     }
   };
 
-  // Giả lập gọi API (Server-Side Pagination)
+  // Gọi API để lấy dữ liệu bảo dưỡng (Server-Side Pagination theo tháng)
   useEffect(() => {
     const fetchMonthData = async () => {
       setIsLoading(true);
-      try {
-        const targetMonth = currentDate.getMonth() + 1;
-        const targetYear = currentDate.getFullYear();
+      const targetMonth = currentDate.getMonth() + 1;
+      const targetYear = currentDate.getFullYear();
 
-        const response = await fetch('http://localhost:5000/api/maintenance/history');
-        if (response.ok) {
-          const dbData = await response.json();
-          
-          if (dbData.length > 0) {
-            const fetchedData = dbData.filter(row => {
-              const [dayStr, monthStr, yearStr] = row.ngaySuaChua.split('/');
-              return parseInt(monthStr, 10) === targetMonth && parseInt(yearStr, 10) === targetYear;
-            });
-            setTableData(fetchedData);
-          } else {
-            // Gom nhóm Mock Data nếu DB trống
-            let mockGrouped = mockMaintenanceData.map(m => ({ ...m }));
-            let groupedMap = {};
-            mockGrouped.forEach(item => {
-               const key = `${item.plate}_${item.date}_${item.km}_${item.garage}`;
-               if (!groupedMap[key]) {
-                  groupedMap[key] = `INV-MOCK-${Math.floor(Math.random()*1000)}`;
-               }
-               item.idHoaDon = groupedMap[key];
-               item.ngaySuaChua = item.date;
-               item.bienSoXe = item.plate;
-               item.noiDung = item.content;
-               item.hangMucBaoDuong = item.maintenancePart;
-               item.kmBaoDuong = item.km;
-               item.soTien = item.amount;
-               item.vat = item.vat;
-               item.tongTien = item.total;
-               item.gara = item.garage;
-               item.hinhThuc = item.method;
-               item.phuTrach = item.PIC;
-            });
-            
-            const fetchedMock = mockGrouped.filter(row => {
-              const [dayStr, monthStr, yearStr] = row.ngaySuaChua.split('/');
-              return parseInt(monthStr, 10) === targetMonth && parseInt(yearStr, 10) === targetYear;
-            });
-            setTableData(fetchedMock);
-          }
+      try {
+        const dbData = await maintenanceApi.getHistory();
+
+        if (dbData && dbData.length > 0) {
+          const filtered = transformMaintenanceHistory(dbData, targetMonth, targetYear);
+          setTableData(filtered);
+        } else {
+          // Fallback về mock data nếu DB trống
+          const mockConverted = transformMockToApiFormat(mockMaintenanceData);
+          const filtered = transformMaintenanceHistory(mockConverted, targetMonth, targetYear);
+          setTableData(filtered);
         }
       } catch (error) {
-        console.error("Lỗi khi tải dữ liệu:", error);
+        console.error('Lỗi khi tải dữ liệu:', error);
+        // Fallback về mock data khi API không khả dụng
+        const mockConverted = transformMockToApiFormat(mockMaintenanceData);
+        const filtered = transformMaintenanceHistory(mockConverted, targetMonth, targetYear);
+        setTableData(filtered);
       }
       setIsLoading(false);
     };

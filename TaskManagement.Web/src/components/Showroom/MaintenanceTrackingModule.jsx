@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { maintenanceApi } from '../../services/api';
+import { transformMaintenanceToTracking } from '../../services/transformers';
 
 // Dữ liệu giả lập theo file.md
 const mockTrackingData = [
@@ -50,12 +52,25 @@ export default function MaintenanceTrackingModule() {
   const [selectedConfigPlate, setSelectedConfigPlate] = useState('default');
 
   useEffect(() => {
-    // Mô phỏng tải dữ liệu API
     setIsLoading(true);
-    setTimeout(() => {
-      setTableData(mockTrackingData);
-      setIsLoading(false);
-    }, 500);
+    maintenanceApi.getHistory()
+      .then(data => {
+        // Chuyển đổi dữ liệu phẳng từ API → dạng ma trận cho bảng
+        const pivotData = transformMaintenanceToTracking(data);
+        if (pivotData.length > 0) {
+          setTableData(pivotData);
+        } else {
+          // Fallback về mock data nếu API trả về trống
+          setTableData(mockTrackingData);
+        }
+      })
+      .catch(err => {
+        console.error('Lỗi khi gọi API bảo dưỡng:', err);
+        setTableData(mockTrackingData);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
 
   const displayData = tableData.filter(row => {
