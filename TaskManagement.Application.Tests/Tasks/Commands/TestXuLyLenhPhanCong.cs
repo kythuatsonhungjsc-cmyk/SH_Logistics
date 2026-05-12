@@ -8,7 +8,7 @@ using QuanLyCongViec.Domain.Enum;
 using QuanLyCongViec.Domain.SuKien;
 using Xunit;
 
-namespace QuanLyCongViec.Application.Tests.CongViec.Commands
+namespace QuanLyCongViec.Application.Tests.Tasks.Commands
 {
     /// <summary>
     /// Kiểm tra logic của bộ xử lý lệnh Phân công công việc (Application Layer)
@@ -49,14 +49,14 @@ namespace QuanLyCongViec.Application.Tests.CongViec.Commands
             _mockDonViCongViec.Verify(u => u.LuuThayDoiAsync(It.IsAny<CancellationToken>()), Times.Once);
             
             // Đảm bảo sự kiện Domain được phát tán (Publish)
-            _mockMediator.Verify(m => m.Publish(It.IsAny<SuKienCongViecDaGiao>(), It.IsAny<CancellationToken>()), Times.Once);
+            _mockMediator.Verify(m => m.Publish(It.Is<ISuKienDomain>(e => e is SuKienCongViecDaGiao), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
         public async Task Handle_CongViecKhongTonTai_PhaiQuangNgoaiLe()
         {
             // Sắp xếp: Trả về null khi tìm công việc ID 99
-            _mockKhoCongViec.Setup(k => k.LayTheoIdAsync(99)).ReturnsAsync((QuanLyCongViec.Domain.Entities.CongViec)null);
+            _mockKhoCongViec.Setup(k => k.LayTheoIdAsync(99)).ReturnsAsync((QuanLyCongViec.Domain.Entities.CongViec?)null);
             
             var lenh = new LenhPhanCongCongViec(99, 2, 1);
 

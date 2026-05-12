@@ -41,7 +41,7 @@ namespace QuanLyCongViec.IntegrationTests
 
             // Kiểm tra
             phanHoi.StatusCode.Should().Be(HttpStatusCode.OK);
-            phanHoi.Content.Headers.ContentType.MediaType.Should().Be("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            phanHoi.Content.Headers.ContentType?.MediaType.Should().Be("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         }
     }
 }

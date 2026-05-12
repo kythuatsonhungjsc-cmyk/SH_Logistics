@@ -21,5 +21,3 @@ src/
 │   └── Common/Interfaces/...
 ├── TaskManagement.Infrastructure/
 └── TaskManagement.Api/
-
-npm rundev  dotnet watch

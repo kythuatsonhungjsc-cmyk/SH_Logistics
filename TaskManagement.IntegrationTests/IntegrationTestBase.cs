@@ -14,8 +14,8 @@ namespace QuanLyCongViec.IntegrationTests
     /// </summary>
     public abstract class CoSoTestTichHop : IAsyncLifetime
     {
-        protected HttpClient Client { get; private set; }
-        private WebApplicationFactory<Program> _factory;
+        protected HttpClient Client { get; private set; } = null!;
+        private WebApplicationFactory<Program> _factory = null!;
 
         // Định nghĩa các Docker Containers
         private readonly PostgreSqlContainer _dbContainer = new PostgreSqlBuilder()
