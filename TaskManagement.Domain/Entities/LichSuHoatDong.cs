@@ -15,10 +15,10 @@ namespace QuanLyCongViec.Domain.Entities
         public int IdNguoiDung { get; set; }
         
         /// <summary> Loại hành động (Tạo, Giao việc, Thay đổi trạng thái...) </summary>
-        public string HanhDong { get; set; }
+        public string HanhDong { get; set; } = string.Empty;
         
         /// <summary> Chi tiết các trường dữ liệu thay đổi (Định dạng JSON) </summary>
-        public string DuLieuThayDoi { get; set; }
+        public string DuLieuThayDoi { get; set; } = string.Empty;
         
         /// <summary> Thời điểm xảy ra hành động </summary>
         public DateTime ThoiDiem { get; set; }

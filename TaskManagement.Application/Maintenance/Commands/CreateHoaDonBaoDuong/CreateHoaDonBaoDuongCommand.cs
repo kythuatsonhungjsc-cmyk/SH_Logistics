@@ -41,7 +41,7 @@ namespace QuanLyCongViec.Application.Maintenance.Commands.CreateHoaDonBaoDuong
         public bool ThanhCong { get; set; }
         public string ThongBaoLoi { get; set; } = string.Empty;
         public bool NghiNgoTrungLap { get; set; }
-        public object ThongTinTrungLap { get; set; }
+        public object? ThongTinTrungLap { get; set; }
     }
 
     /// <summary>

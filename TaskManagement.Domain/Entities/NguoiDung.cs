@@ -8,9 +8,9 @@ namespace QuanLyCongViec.Domain.Entities
     public class NguoiDung
     {
         public int Id { get; set; }
-        public string Email { get; set; }
-        public string HoTen { get; set; }
-        public string MatKhauHash { get; set; }
+        public string Email { get; set; } = string.Empty;
+        public string HoTen { get; set; } = string.Empty;
+        public string MatKhauHash { get; set; } = string.Empty;
         public VaiTroNguoiDung VaiTro { get; set; }
         public string? IdChatTelegram { get; set; }
         
@@ -53,7 +53,7 @@ namespace QuanLyCongViec.Domain.Entities
     public class TokenLamMoi
     {
         public int Id { get; set; }
-        public string TokenHash { get; set; }
+        public string TokenHash { get; set; } = string.Empty;
         public int IdNguoiDung { get; set; }
         public DateTime NgayHetHan { get; set; }
         public bool DaThuHoi { get; private set; }

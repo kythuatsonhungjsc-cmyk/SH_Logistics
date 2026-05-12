@@ -30,14 +30,14 @@ namespace QuanLyCongViec.Domain.Entities
         public bool DaXoa { get; private set; }
 
         // Các thuộc tính điều hướng (Dùng cho EF Core, không chứa logic nghiệp vụ)
-        public NguoiDung NguoiTao { get; private set; }
-        public NguoiDung NguoiDuocGiao { get; private set; }
+        public NguoiDung? NguoiTao { get; private set; }
+        public NguoiDung? NguoiDuocGiao { get; private set; }
 
         // Danh sách các sự kiện Domain phát sinh khi thực thể thay đổi
         private List<ISuKienDomain> _cacSuKienDomain = new();
         public IReadOnlyCollection<ISuKienDomain> CacSuKienDomain => _cacSuKienDomain.AsReadOnly();
 
-        private CongViec() { } // Dành cho EF Core
+        private CongViec() { TieuDe = string.Empty; MoTa = string.Empty; } // Dành cho EF Core
 
         /// <summary>
         /// Tạo mới một công việc với các thông tin cơ bản ban đầu
